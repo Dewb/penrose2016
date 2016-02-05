@@ -4,7 +4,7 @@
 #include "plasma.h"
 #include "FastLED.h"
 
-#define PENROSE_ARM 0
+#define PENROSE_ARM 2
 #include "zonemap.h"
 
 #define COLS_LEDs 120  // all of the following params need to be adjusted for screen size
@@ -39,33 +39,39 @@ void loop()
 
         uint8_t d = abs(p - 128);
         uint8_t s = lerp8by8(0, 255, p);
-        uint8_t l = lerp8by8(80, 128, p);
+        uint8_t l = lerp8by8(0.8 * 255, 255, p);
 
         uint8_t smix = lerp8by8(255, 179, d);
-        uint8_t lmix = lerp8by8(128, 51, d);
+        uint8_t lmix = lerp8by8(255, 101, d);
 
         uint16_t index = y * COLS_LEDs + x;
 
         CRGB color(0);
 
         switch(zonemap[index]) {
-          case ZONE_A:
+          case ZONE_A1:
+          case ZONE_A2:
             color.setHSV(0, s, l);
             break;
-          case ZONE_AB:
-            color.setHSV(lerp8by8(0, 40, p), smix, lmix);
+          case ZONE_AB1:
+          case ZONE_AB2:
+            color.setHSV(lerp8by8(0, 0.4 * 255, p), smix, lmix);
             break;
-          case ZONE_B:
-            color.setHSV(40, s, l);
+          case ZONE_B1:
+          case ZONE_B2:
+            color.setHSV(0.4 * 255, s, l);
             break;
-          case ZONE_BC:
-            color.setHSV(lerp8by8(40, 80, p), smix, lmix);
+          case ZONE_BC1:
+          case ZONE_BC2:
+            color.setHSV(lerp8by8(0.4 * 255, 0.8 * 255, p), smix, lmix);
             break;
-          case ZONE_C:
-            color.setHSV(80, s, l);
+          case ZONE_C1:
+          case ZONE_C2:
+            color.setHSV(0.7 * 255, s, l);
             break;
-          case ZONE_AC:
-            color.setHSV(lerp8by8(80, 100, p), smix, lmix);
+          case ZONE_AC1:
+          case ZONE_AC2:
+            color.setHSV(lerp8by8(0.7 * 255, 1.0 * 255, p), smix, lmix);
             break;
           default:
           case ZONE_off:
